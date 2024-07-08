@@ -119,3 +119,29 @@ func (o *openAPI) PostSettingGuide(ctx context.Context,
 	}
 	return resp.Result().(*dto.Message), nil
 }
+
+func (o *openAPI) PostC2CMessage(ctx context.Context, userID string, msg *dto.MessageToCreate) (*dto.Message, error) {
+	resp, err := o.request(ctx).
+		SetResult(dto.Message{}).
+		SetPathParam("openid", userID).
+		SetBody(msg).
+		Post(o.getURL(c2cMessageURI))
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.Result().(*dto.Message), nil
+}
+
+func (o *openAPI) PostGroupMessage(ctx context.Context, groupID string, msg *dto.MessageToCreate) (*dto.Message, error) {
+	resp, err := o.request(ctx).
+		SetResult(dto.Message{}).
+		SetPathParam("group_openid", groupID).
+		SetBody(msg).
+		Post(o.getURL(groupMessageURI))
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.Result().(*dto.Message), nil
+}

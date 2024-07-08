@@ -51,7 +51,39 @@ var eventParseFuncMap = map[dto.OPCode]map[dto.EventType]eventParseFunc{
 		dto.EventForumAuditResult:  forumAuditHandler,
 
 		dto.EventInteractionCreate: interactionHandler,
+
+		dto.EventC2CMessageCreate:     c2cMessageHandler,
+		dto.EventFriendAdd:            nil,
+		dto.EventFriendDel:            nil,
+		dto.EventC2CMsgReject:         nil,
+		dto.EventC2CMsgReceive:        nil,
+		dto.EventGroupAtMessageCreate: groupAtMessageHandler,
+		dto.EventGroupAddRobot:        nil,
+		dto.EventGroupDelRobot:        nil,
+		dto.EventGroupMsgReject:       nil,
+		dto.EventGroupMsgReceive:      nil,
 	},
+}
+
+func groupAtMessageHandler(payload *dto.WSPayload, message []byte) error {
+	data := &dto.WSGroupAtMessageData{}
+	if err := ParseData(message, data); err != nil {
+		return err
+	}
+	if DefaultHandlers.GroupAtMessage != nil {
+		return DefaultHandlers.GroupAtMessage(payload, data)
+	}
+	return nil
+}
+func c2cMessageHandler(payload *dto.WSPayload, message []byte) error {
+	data := &dto.WSC2CMessageData{}
+	if err := ParseData(message, data); err != nil {
+		return err
+	}
+	if DefaultHandlers.C2CMessage != nil {
+		return DefaultHandlers.C2CMessage(payload, data)
+	}
+	return nil
 }
 
 type eventParseFunc func(event *dto.WSPayload, message []byte) error

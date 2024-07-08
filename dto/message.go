@@ -20,6 +20,8 @@ type Message struct {
 	Author *User `json:"author"`
 	// 消息发送方Author的member属性，只是部分属性
 	Member *Member `json:"member"`
+	//群聊的 openid
+	GroupOpenid string `json:"group_openid"`
 	// 附件
 	Attachments []*MessageAttachment `json:"attachments"`
 	// 结构化消息-embeds

@@ -38,6 +38,16 @@ const (
 	EventForumReplyDelete      EventType = "FORUM_REPLY_DELETE"
 	EventForumAuditResult      EventType = "FORUM_PUBLISH_AUDIT_RESULT"
 	EventInteractionCreate     EventType = "INTERACTION_CREATE"
+	EventC2CMessageCreate      EventType = "C2C_MESSAGE_CREATE"      // 用户单聊发消息给机器人时候
+	EventFriendAdd             EventType = "FRIEND_ADD"              // 用户添加使用机器人
+	EventFriendDel             EventType = "FRIEND_DEL"              // 用户删除机器人
+	EventC2CMsgReject          EventType = "C2C_MSG_REJECT"          // 用户在机器人资料卡手动关闭"主动消息"推送
+	EventC2CMsgReceive         EventType = "C2C_MSG_RECEIVE"         // 用户在机器人资料卡手动开启"主动消息"推送开关
+	EventGroupAtMessageCreate  EventType = "GROUP_AT_MESSAGE_CREATE" // 用户在群里@机器人时收到的消息
+	EventGroupAddRobot         EventType = "GROUP_ADD_ROBOT"         // 机器人被添加到群聊
+	EventGroupDelRobot         EventType = "GROUP_DEL_ROBOT"         // 机器人被移出群聊
+	EventGroupMsgReject        EventType = "GROUP_MSG_REJECT"        // 群管理员主动在机器人资料页操作关闭通知
+	EventGroupMsgReceive       EventType = "GROUP_MSG_RECEIVE"       // 群管理员主动在机器人资料页操作开启通知
 )
 
 // intentEventMap 不同 intent 对应的事件定义
@@ -45,6 +55,13 @@ var intentEventMap = map[Intent][]EventType{
 	IntentGuilds: {
 		EventGuildCreate, EventGuildUpdate, EventGuildDelete,
 		EventChannelCreate, EventChannelUpdate, EventChannelDelete,
+	},
+	IntentGroupAndC2CEvent: {
+		EventC2CMessageCreate, EventFriendAdd,
+		EventFriendDel, EventC2CMsgReject,
+		EventC2CMsgReceive, EventGroupAtMessageCreate,
+		EventGroupAddRobot, EventGroupDelRobot,
+		EventGroupMsgReject, EventGroupMsgReceive,
 	},
 	IntentGuildMembers:          {EventGuildMemberAdd, EventGuildMemberUpdate, EventGuildMemberRemove},
 	IntentGuildMessages:         {EventMessageCreate, EventMessageDelete},

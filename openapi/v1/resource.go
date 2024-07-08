@@ -29,6 +29,9 @@ const (
 	messagesURI uri = "/channels/{channel_id}/messages"
 	messageURI  uri = "/channels/{channel_id}/messages/{message_id}"
 
+	c2cMessageURI   uri = "/v2/users/{openid}/messages"
+	groupMessageURI uri = "/v2/groups/{group_openid}/messages"
+
 	userMeURI       uri = "/users/@me"
 	userMeGuildsURI uri = "/users/@me/guilds"
 	userMeDMURI     uri = "/users/@me/dms"

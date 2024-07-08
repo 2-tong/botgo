@@ -23,6 +23,9 @@ var DefaultHandlers struct {
 	PublicMessageDelete PublicMessageDeleteEventHandler
 	DirectMessageDelete DirectMessageDeleteEventHandler
 
+	C2CMessage     C2CMessageEventHandler
+	GroupAtMessage GroupAtMessageEventHandler
+
 	Audio AudioEventHandler
 
 	Thread     ThreadEventHandler
@@ -69,6 +72,12 @@ type MessageReactionEventHandler func(event *dto.WSPayload, data *dto.WSMessageR
 
 // ATMessageEventHandler at 机器人消息事件 handler
 type ATMessageEventHandler func(event *dto.WSPayload, data *dto.WSATMessageData) error
+
+// C2CMessageEventHandler at 机器人消息事件 handler
+type C2CMessageEventHandler func(event *dto.WSPayload, data *dto.WSC2CMessageData) error
+
+// GroupAtMessageEventHandler at 机器人消息事件 handler
+type GroupAtMessageEventHandler func(event *dto.WSPayload, data *dto.WSGroupAtMessageData) error
 
 // DirectMessageEventHandler 私信消息事件 handler
 type DirectMessageEventHandler func(event *dto.WSPayload, data *dto.WSDirectMessageData) error
@@ -194,6 +203,12 @@ func registerMessageHandlers(i dto.Intent, handlers ...interface{}) dto.Intent {
 		case MessageAuditEventHandler:
 			DefaultHandlers.MessageAudit = handle
 			i = i | dto.EventToIntent(dto.EventMessageAuditPass, dto.EventMessageAuditReject)
+		case C2CMessageEventHandler:
+			DefaultHandlers.C2CMessage = handle
+			i = i | dto.EventToIntent(dto.EventC2CMessageCreate)
+		case GroupAtMessageEventHandler:
+			DefaultHandlers.GroupAtMessage = handle
+			i = i | dto.EventToIntent(dto.EventGroupAtMessageCreate)
 		default:
 		}
 	}
